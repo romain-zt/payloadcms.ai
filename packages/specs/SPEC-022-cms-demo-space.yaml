@@ -28,6 +28,6 @@ definition_of_done:
   - POST /api/demo-chat without rate limit → 200 streaming
   - POST /api/demo-chat after 10 reqs/hour same IP → 429 response
   - No auth required to access /demo
-status: pending
+status: done
 deps: [SPEC-018, SPEC-013]
 priority: high

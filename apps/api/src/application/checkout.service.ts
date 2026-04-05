@@ -7,10 +7,19 @@ export class CheckoutService {
   private webhookHandler: WebhookHandler
 
   constructor() {
-    this.stripeService = new StripeService(process.env.STRIPE_SECRET_KEY ?? '')
+    const secretKey = process.env.STRIPE_SECRET_KEY
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
+
+    if (!secretKey) throw new Error('STRIPE_SECRET_KEY environment variable is required')
+    if (!webhookSecret) throw new Error('STRIPE_WEBHOOK_SECRET environment variable is required')
+
+    this.stripeService = new StripeService(secretKey, webhookSecret)
     this.webhookHandler = new WebhookHandler({
       onCheckoutCompleted: async (session) => {
-        console.log('Checkout completed:', session.id, 'email:', session.customer_email)
+        console.log('Checkout completed:', session.id, 'customer:', session.customer)
+      },
+      onSubscriptionUpdated: async (subscription) => {
+        console.log('Subscription updated:', subscription.id, 'status:', subscription.status)
       },
       onPaymentSucceeded: async (intent) => {
         console.log('Payment succeeded:', intent.id)
@@ -30,12 +39,12 @@ export class CheckoutService {
     return { url: session.url }
   }
 
-  async handleWebhook(rawBody: Buffer, signature: string) {
-    const event = this.stripeService.constructWebhookEvent(
-      rawBody,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET ?? ''
-    )
+  async handleWebhook(rawBody: Buffer, signature: string): Promise<void> {
+    const event = this.stripeService.constructWebhookEvent(rawBody, signature)
     await this.webhookHandler.handle(event)
+  }
+
+  isSubscriptionActive(customerId: string): boolean {
+    return this.stripeService.isActive(customerId)
   }
 }

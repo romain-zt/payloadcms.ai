@@ -2,8 +2,10 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './infrastructure/app.module'
 
 async function bootstrap() {
-  if (!process.env.API_KEY) {
-    console.error('FATAL: API_KEY environment variable is required but not set')
+  const required = ['API_KEY', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET']
+  const missing = required.filter((k) => !process.env[k])
+  if (missing.length > 0) {
+    console.error(`FATAL: Missing required environment variables: ${missing.join(', ')}`)
     process.exit(1)
   }
 

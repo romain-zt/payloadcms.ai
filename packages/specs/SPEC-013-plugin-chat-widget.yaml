@@ -28,6 +28,6 @@ definition_of_done:
   - Escape key closes panel (or goes back to chat from list view)
   - No TypeScript errors in strict mode
   - No TODO or placeholder code
-status: pending
+status: done
 deps: [SPEC-011]
 priority: critical

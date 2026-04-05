@@ -27,6 +27,6 @@ definition_of_done:
   - POST /api/waitlist called on form submit, 201 → success state
   - No console errors
   - All text fits within viewport without horizontal scroll at 320px
-status: pending
+status: done
 deps: [SPEC-018, SPEC-020]
 priority: high

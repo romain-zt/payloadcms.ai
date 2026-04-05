@@ -20,6 +20,6 @@ definition_of_done:
   - Access control: read/create/update/delete requires authenticated user
   - TypeScript strict compile passes
   - import { aiConversationsCollection } from '@payloadcms/ai-assistant' resolves after build
-status: pending
+status: done
 deps: [SPEC-011]
 priority: critical

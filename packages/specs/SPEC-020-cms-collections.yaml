@@ -22,6 +22,6 @@ definition_of_done:
   - POST /api/waitlist with {"email":"test@test.com"} → 201 (public endpoint)
   - Waitlist collection visible in /admin
   - Pages collection visible in /admin with draft/publish toggle
-status: pending
+status: done
 deps: [SPEC-018]
 priority: high

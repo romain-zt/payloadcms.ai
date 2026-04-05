@@ -20,25 +20,25 @@ graph TD
 
   %% ── Phase 2: Hardening (READY) ──────────────────────────────
   S008[SPEC-008: SDK Wrapper]:::ready
-  S009[SPEC-009: API Hardening]:::ready
-  S010[SPEC-010: Billing Hardening]:::ready
+  S009[SPEC-009: API Hardening]:::done
+  S010[SPEC-010: Billing Hardening]:::done
 
-  %% ── Phase 3: Plugin Epic (PENDING) ──────────────────────────
-  S011[SPEC-011: Plugin Skeleton]:::ready
-  S012[SPEC-012: AI Conversations Collection]:::pending
-  S013[SPEC-013: Chat Widget Component]:::pending
-  S014[SPEC-014: Chat Endpoint]:::pending
-  S015[SPEC-015: CMS Tools]:::pending
-  S016[SPEC-016: Plugin Factory]:::pending
-  S017[SPEC-017: Plugin Build Verify]:::pending
+  %% ── Phase 3: Plugin Epic (DONE) ─────────────────────────────
+  S011[SPEC-011: Plugin Skeleton]:::done
+  S012[SPEC-012: AI Conversations Collection]:::done
+  S013[SPEC-013: Chat Widget Component]:::done
+  S014[SPEC-014: Chat Endpoint]:::done
+  S015[SPEC-015: CMS Tools]:::done
+  S016[SPEC-016: Plugin Factory]:::done
+  S017[SPEC-017: Plugin Build Verify]:::done
 
-  %% ── Phase 4: payloadcms.ai Website (PENDING) ─────────────────
-  S018[SPEC-018: CMS App Skeleton]:::ready
-  S019[SPEC-019: Docker]:::pending
-  S020[SPEC-020: CMS Collections]:::pending
-  S021[SPEC-021: CMS Landing]:::pending
-  S022[SPEC-022: Demo Space]:::pending
-  S023[SPEC-023: Plugin Dogfood]:::pending
+  %% ── Phase 4: payloadcms.ai Website (DONE) ───────────────────
+  S018[SPEC-018: CMS App Skeleton]:::done
+  S019[SPEC-019: Docker]:::done
+  S020[SPEC-020: CMS Collections]:::done
+  S021[SPEC-021: CMS Landing]:::done
+  S022[SPEC-022: Demo Space]:::done
+  S023[SPEC-023: Plugin Dogfood]:::done
 
   %% ── Phase 1 edges ────────────────────────────────────────────
   S001 --> S002
@@ -97,11 +97,11 @@ graph TD
 ## Progress
 
 ```
-PROGRESS:    ████████░░ 12/23 — 4 READY, 7 PENDING (Plugin), 5 PENDING (Website)
+PROGRESS:    ██████████ 22/23 — 1 READY (SPEC-008 cloud SDK)
 
-  done:    12  (SPEC-001 → SPEC-007, all Phase 1)
-  ready:    4  (SPEC-008, SPEC-009, SPEC-010, SPEC-011, SPEC-018)
-  pending: 12  (SPEC-012→017, SPEC-019→023)
+  done:    22  (all except SPEC-008)
+  ready:    1  (SPEC-008 — optional cloud SDK wrapper)
+  pending:  0
   failed:   0
 ```
 
@@ -176,11 +176,11 @@ PROGRESS:    ████████░░ 12/23 — 4 READY, 7 PENDING (Plugin
 - [x] Landing live (SPEC-003f)
 - [x] Payment possible (SPEC-005)
 - [x] Basic AI flow (SPEC-007)
-- [ ] Plugin installable as npm package (SPEC-017)
-- [ ] Plugin works in admin panel end-to-end (SPEC-023)
-- [ ] payloadcms.ai site live on Docker (SPEC-019)
-- [ ] Waitlist accepts signups (SPEC-021)
-- [ ] Demo space live at /demo (SPEC-022)
+- [x] Plugin installable as npm package (SPEC-017)
+- [x] Plugin works in admin panel end-to-end (SPEC-023)
+- [x] payloadcms.ai site live on Docker (SPEC-019)
+- [x] Waitlist accepts signups (SPEC-021)
+- [x] Demo space live at /demo (SPEC-022)
 
 ## What was built
 - Landing: "Your CMS developer. Available 24/7." — 6 sections, mobile-first

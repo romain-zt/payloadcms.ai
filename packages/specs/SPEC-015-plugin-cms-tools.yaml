@@ -25,6 +25,6 @@ definition_of_done:
   - Each tool has description, inputSchema (zod), and execute function
   - TypeScript strict compile passes with no any casts
   - import { buildCMSTools } from '@payloadcms/ai-assistant' resolves after build
-status: pending
+status: done
 deps: [SPEC-011]
 priority: critical

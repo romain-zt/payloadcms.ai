@@ -22,6 +22,6 @@ definition_of_done:
   - No dist file contains absolute src/ path references
   - README.md has npm install command and minimal usage example
   - TypeScript import resolves: import { createAIAssistantPlugin, AIChatProvider } from '@payloadcms/ai-assistant'
-status: pending
+status: done
 deps: [SPEC-016]
 priority: critical

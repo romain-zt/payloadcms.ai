@@ -25,6 +25,6 @@ definition_of_done:
   - docker build in apps/cms produces an image under 500MB
   - postgres data persists across docker-compose down + up (volume)
   - .env.example has DATABASE_URI=postgresql://payload:payload@postgres:5432/payloadcms
-status: pending
+status: done
 deps: [SPEC-018]
 priority: high

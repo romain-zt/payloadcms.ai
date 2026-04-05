@@ -25,6 +25,6 @@ definition_of_done:
   - pnpm build in packages/plugin runs tsup and exits 0
   - dist/index.js and dist/index.d.ts exist after build
   - TypeScript strict compile passes (tsc --noEmit) in packages/plugin
-status: ready
+status: done
 deps: [SPEC-001]
 priority: critical

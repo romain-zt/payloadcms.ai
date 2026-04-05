@@ -11,6 +11,7 @@
     "payload": "payload"
   },
   "dependencies": {
+    "@payloadcms/ai-assistant": "workspace:*",
     "@payloadcms/db-postgres": "^3.33.0",
     "@payloadcms/next": "^3.33.0",
     "@payloadcms/richtext-lexical": "^3.33.0",
@@ -19,7 +20,10 @@
     "payload": "^3.33.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "sharp": "^0.34.2"
+    "sharp": "^0.34.2",
+    "@ai-sdk/openai": "^3.0.50",
+    "ai": "^6.0.146",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",

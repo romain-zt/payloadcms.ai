@@ -30,6 +30,6 @@ definition_of_done:
   - STRIPE_WEBHOOK_SECRET missing → server fails to start with clear error
   - No TODO or placeholder in src/
   - TypeScript strict compile passes
-status: ready
+status: done
 deps: [SPEC-005, SPEC-009]
 priority: critical

@@ -30,6 +30,6 @@ definition_of_done:
   - API_KEY env var missing → server fails to start with clear error
   - No TODO or placeholder in src/
   - TypeScript strict compile passes
-status: ready
+status: done
 deps: [SPEC-007]
 priority: critical

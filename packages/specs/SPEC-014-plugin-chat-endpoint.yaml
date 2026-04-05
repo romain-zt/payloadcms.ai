@@ -29,6 +29,6 @@ definition_of_done:
   - Tools are attached to streamText call
   - TypeScript strict compile passes
   - No TODO or placeholder
-status: pending
+status: done
 deps: [SPEC-011, SPEC-015]
 priority: critical

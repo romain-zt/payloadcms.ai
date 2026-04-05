@@ -30,6 +30,6 @@ definition_of_done:
   - /admin loads PayloadCMS admin panel in browser
   - payload.config.ts has valid TypeScript with no errors
   - .env.example documents all required env vars
-status: ready
+status: done
 deps: [SPEC-001]
 priority: high

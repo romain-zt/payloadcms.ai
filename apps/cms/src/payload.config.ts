@@ -1,8 +1,11 @@
 import { buildConfig } from 'payload'
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { createAIAssistantPlugin } from '@payloadcms/ai-assistant'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Waitlist } from './collections/Waitlist'
+import { Pages } from './collections/Pages'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
@@ -14,7 +17,14 @@ export default buildConfig({
   admin: {
     user: Users.slug,
   },
-  collections: [Users, Media],
+  plugins: [
+    createAIAssistantPlugin({
+      model: process.env.AI_MODEL ?? 'gpt-4o',
+      collections: ['waitlist', 'pages', 'media'],
+      globals: [],
+    }),
+  ],
+  collections: [Users, Media, Waitlist, Pages],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET ?? '',
   typescript: {

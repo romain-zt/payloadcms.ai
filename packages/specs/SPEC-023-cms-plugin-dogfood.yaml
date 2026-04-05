@@ -25,6 +25,6 @@ definition_of_done:
   - HEAD /api/ai/chat → 200 when AI_ENABLED=true
   - HEAD /api/ai/chat → 403 when AI_ENABLED=false
   - No TypeScript errors in apps/cms
-status: pending
+status: done
 deps: [SPEC-017, SPEC-020]
 priority: high
