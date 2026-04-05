@@ -1,0 +1,40 @@
+---
+description: Compact serialization format for DAG state
+globs: ["packages/agents/**", "packages/specs/**"]
+---
+
+# Serialization — RCD1 Format
+
+## Principle
+- Minimize tokens in prompts
+- Use file references, not inline content
+- Delta encoding for updates
+- Bitsets for checklists
+
+## RCD1 Messages
+- `!S|pid|rev|ph|tb|cur|ts` — snapshot
+- `!A|pid|rev|tid_list|m|k` — assignment
+- `!D|pid|base_rev|new_rev|cur|ts` — delta
+
+## Records (in snapshot)
+- `F|fid|role|h=xxxx` — blob/file reference
+- `M|mid|task_list|h=xxxx` — milestone
+- `T|id|parent|deps|mid|ty|st|pr|rk|est|ctx|ac|ck|cr|lg` — task
+- `I|idx|tid_list|op|err` — iteration history
+
+## Delta Operations
+- `U|tid|st|rev|err` — status update
+- `R|tid_list` — mark ready
+- `J|mid|tid_list|ok|meta` — milestone validation
+
+## Task Status Codes
+- 0: PENDING
+- 1: READY
+- 2: DONE
+- 3: FAILED
+
+## Rules
+- NEVER include long text in prompts
+- Reference specs by ID and hash
+- Use deltas, not full snapshots, for updates
+- External blobs for content >100 tokens

@@ -1,0 +1,41 @@
+---
+description: Core project identity and philosophy for payloadcms.ai
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# payloadcms.ai — "Talk to your CMS"
+
+## Product
+AI interface for PayloadCMS: create content, update content, upload media, query CMS.
+Target: developers, freelancers, agencies.
+
+## Monorepo Layout
+```
+/apps/web        → Next.js (landing + app)
+/apps/api        → NestJS (hexagonal architecture)
+/packages/core   → domain types (intents, actions, tasks, plans)
+/packages/agents → DAG + recursive agent system
+/packages/events → typed event bus
+/packages/adapters → CMS integrations (PayloadCMS)
+/packages/billing → Stripe subscription logic
+/packages/specs  → ALL specs (source of truth)
+/packages/utils  → shared utilities
+/tooling/cursor  → rules / commands / agents
+```
+
+## Philosophy
+- Build minimal → validate → expand
+- NEVER overbuild
+- SPEED > PERFECTION, but STRUCTURE MUST HOLD
+- Specs in `/packages/specs` are the ONLY source of truth
+- ALL planning goes to spec files, never "plan mode"
+- Charge early, validate willingness to pay
+
+## Stack
+- TypeScript strict everywhere
+- pnpm workspaces + Turborepo
+- Next.js (app router) for web
+- NestJS (hexagonal) for API
+- Stripe for billing
+- OpenAI/Anthropic for LLM

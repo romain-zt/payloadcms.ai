@@ -1,0 +1,33 @@
+---
+description: Security and safety rules for AI-generated code
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Safety Rules
+
+## AI System Safety
+- LLM generates intents, NEVER executes directly
+- All intents validated before action
+- No direct database access from LLM output
+- No raw file writes from AI-generated content
+- Sanitize all LLM outputs before use
+
+## Code Safety
+- No secrets in code (use env vars)
+- No hardcoded credentials
+- Validate all external input
+- Escape user content in templates
+- Use parameterized queries only
+
+## Execution Safety
+- Lock groups prevent file conflicts in parallel execution
+- Idempotency keys for all mutating operations
+- Retry with backoff for transient failures
+- Fail fast on validation errors
+- Max recursion depth: 4 for spec splitting
+
+## Webhook Safety
+- Verify Stripe webhook signatures
+- Idempotent event processing
+- Handle duplicate events gracefully

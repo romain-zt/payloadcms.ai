@@ -1,0 +1,35 @@
+---
+description: Model allocation policy — optimize cost and speed
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Model Policy
+
+## Default: composer-2 (fast)
+Use for ALL execution unless explicitly marked otherwise.
+Cheap, fast, sufficient for atomic tasks.
+
+## Opus 4.6 (high thinking): Planner ONLY
+The planner is the single point where deep reasoning pays off.
+A wrong DAG = cascading waste across all downstream agents.
+
+## Allocation
+
+| Agent        | Model                    | Why                                         |
+|-------------|--------------------------|---------------------------------------------|
+| Planner     | claude-4.6-opus (think)  | DAG correctness, dependency reasoning, risk |
+| Splitter    | composer-2 (fast)        | Pattern-matching on clear criteria          |
+| Executor    | composer-2 (fast)        | Atomic implementation, runs most often      |
+| Reviewer    | composer-2 (fast)        | Checklist validation against DoD            |
+| Orchestrator| composer-2 (fast)        | Mechanical coordination                     |
+
+## Cost Rationale
+- Executor runs ~70% of all agent invocations → must be cheapest
+- Planner runs ~5% of invocations → opus cost is negligible at scale
+- One bad DAG costs more than 100 opus calls (rework, failed specs, wasted executor runs)
+
+## Escalation
+If reviewer detects an architectural violation or repeated failures:
+→ Escalate to planner (opus) for re-planning
+→ Never throw more executor runs at a structural problem

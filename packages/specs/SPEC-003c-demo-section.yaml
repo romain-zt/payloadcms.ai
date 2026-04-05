@@ -1,0 +1,21 @@
+id: SPEC-003c
+goal: Build demo section with "watch your developer work" framing
+constraints:
+  - Lazy loaded (below fold)
+  - Placeholder visually appealing
+  - Copy from packages/marketing/copy.json → demo
+inputs:
+  - SPEC-002 (Next.js + Tailwind ready)
+  - packages/marketing/copy.json
+outputs:
+  - apps/web/src/components/landing/demo.tsx
+definition_of_done:
+  - Title: "Watch your developer work"
+  - Subtitle: "Tell it what you need. It handles the CMS."
+  - Placeholder area (rounded, bordered, aspect-video)
+  - Lazy loaded
+  - Responsive
+status: done
+deps: [SPEC-002]
+priority: high
+parent: SPEC-003

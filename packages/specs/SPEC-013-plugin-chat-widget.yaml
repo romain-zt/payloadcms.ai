@@ -1,0 +1,33 @@
+id: SPEC-013
+title: plugin-chat-widget
+goal: Port the AIChatProvider React component from rfe into the plugin package as a production-ready admin panel widget
+constraints:
+  - Source: __ignored/AIChat/index.tsx (existing working implementation)
+  - Must work as a PayloadCMS admin.components.providers entry
+  - React client component ('use client')
+  - Uses PayloadCMS CSS variables for theming (var(--theme-elevation-*), var(--theme-text))
+  - Streams from /api/ai/chat (relative URL — plugin endpoint)
+  - Persists conversations via /api/ai-conversations (PayloadCMS REST)
+  - Self-contained — zero external UI library dependencies
+  - Checks /api/globals/site-config for aiAssistantEnabled flag before rendering
+  - Checks HEAD /api/ai/chat → 403 = disabled
+inputs:
+  - SPEC-011 (plugin skeleton)
+  - __ignored/AIChat/index.tsx (source component — port verbatim, then clean)
+outputs:
+  - packages/plugin/src/components/AIChatProvider.tsx
+  - packages/plugin/src/components/AIChatWidget.tsx (extracted widget, used by provider)
+  - packages/plugin/src/components/index.ts
+  - Updated packages/plugin/src/index.ts (exports AIChatProvider)
+definition_of_done:
+  - AIChatProvider is exported from @payloadcms/ai-assistant
+  - Component renders a floating FAB button in PayloadCMS admin
+  - Clicking FAB opens chat panel (380px wide, 520px tall)
+  - Messages stream in real-time via fetch + ReadableStream
+  - Conversation list view accessible via history button
+  - Escape key closes panel (or goes back to chat from list view)
+  - No TypeScript errors in strict mode
+  - No TODO or placeholder code
+status: pending
+deps: [SPEC-011]
+priority: critical

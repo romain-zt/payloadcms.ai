@@ -1,0 +1,35 @@
+id: SPEC-009
+title: api-hardening
+goal: Harden the NestJS API with API key authentication, streaming responses, and proper error handling on all intent endpoints
+constraints:
+  - API key validated on every request (header: x-api-key)
+  - Streaming via Server-Sent Events or chunked transfer (no WebSockets)
+  - Unauthorized → 401 JSON response
+  - Invalid input → 400 JSON response with field-level errors
+  - Internal errors → 500 JSON with sanitized message (no stack traces)
+  - API key stored in env, not code
+  - No breaking change to existing POST /api/intent shape
+inputs:
+  - SPEC-007 (intent flow)
+  - apps/api/src/infrastructure/controllers/intent.controller.ts
+  - apps/api/src/application/intent.service.ts
+  - apps/api/src/infrastructure/app.module.ts
+outputs:
+  - apps/api/src/infrastructure/guards/api-key.guard.ts
+  - apps/api/src/infrastructure/guards/index.ts
+  - Updated intent.controller.ts (guard applied, streaming endpoint added)
+  - Updated app.module.ts (guard registered)
+  - POST /api/intent — existing, now requires x-api-key
+  - POST /api/intent/stream — new, SSE streaming variant
+definition_of_done:
+  - curl POST /api/intent without x-api-key header → 401
+  - curl POST /api/intent with invalid x-api-key → 401
+  - curl POST /api/intent with valid x-api-key + valid body → 200 JSON
+  - curl POST /api/intent/stream with valid key → streams text/event-stream chunks
+  - Malformed JSON body → 400 with error message
+  - API_KEY env var missing → server fails to start with clear error
+  - No TODO or placeholder in src/
+  - TypeScript strict compile passes
+status: ready
+deps: [SPEC-007]
+priority: critical

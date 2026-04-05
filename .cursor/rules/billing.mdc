@@ -1,0 +1,31 @@
+---
+description: Stripe billing integration rules
+globs: ["packages/billing/**", "apps/api/**/billing/**", "apps/web/**/pricing/**", "apps/web/**/checkout/**"]
+---
+
+# Billing Rules
+
+## Stripe Integration
+- Use `stripe` npm package with latest API version
+- Always use Checkout Sessions for payment
+- Always handle webhooks for subscription state
+- Store: customer_id, subscription_status
+- Never store card details
+
+## Pricing
+- Free: limited requests
+- Pro: €19–€49/month (subscription)
+
+## Flow
+landing → checkout → access
+
+## Webhook Events to Handle
+- checkout.session.completed
+- customer.subscription.created
+- customer.subscription.updated
+- customer.subscription.deleted
+- invoice.payment_failed
+
+## Business Rule
+- Charge early, even if product incomplete
+- Validate willingness to pay first

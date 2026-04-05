@@ -1,0 +1,44 @@
+---
+description: Execution and task management rules for the recursive DAG system
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Execution Rules
+
+## Spec-Driven Development
+1. Read the spec
+2. If unclear → split into smaller specs
+3. If ready → execute
+4. If fail → split again
+5. If success → mark done
+6. Update DAG
+
+## Task READY Criteria
+A task is READY when:
+- No unresolved dependencies
+- Clear definition of done
+- Executable in one pass (one concern, ~1 file)
+
+## Splitting Rule
+If a task is unclear, multi-responsibility, >1 file, or >1 concern → SPLIT IMMEDIATELY.
+Repeat recursively until each spec is atomic.
+
+## Parallelization
+- Detect independent tasks
+- Execute in parallel
+- No shared files between parallel tasks
+- Separate domains
+
+## Task States
+- `PENDING` (0): not started, has unresolved deps
+- `READY` (1): all deps done, can execute now
+- `DONE` (2): completed and validated
+- `FAILED` (3): execution failed, needs split or retry
+
+## Events
+- task.created → new task added to DAG
+- task.ready → all deps resolved
+- task.started → execution begun
+- task.done → validated complete
+- task.failed → needs intervention

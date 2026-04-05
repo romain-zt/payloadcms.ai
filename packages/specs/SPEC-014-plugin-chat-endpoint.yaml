@@ -1,0 +1,34 @@
+id: SPEC-014
+title: plugin-chat-endpoint
+goal: Implement the /api/ai/chat PayloadCMS custom endpoint that authenticates the admin user and streams LLM responses using the Vercel AI SDK
+constraints:
+  - Source: __ignored/route.ts (adapt from Next.js route to Payload custom endpoint)
+  - Must be a PayloadCMS Endpoint object (path, method, handler)
+  - path: /chat (plugin registers it under /api/ai/chat via Payload endpoint prefix)
+  - Authenticated — uses payload.auth({ headers }) — returns 401 if no user
+  - Uses streamText from 'ai' package (Vercel AI SDK)
+  - Supports HEAD method for feature flag check (returns 403 if AI_ENABLED=false)
+  - Model: configurable via plugin options (default gpt-4o) or via site-config global
+  - OpenAI key: from plugin options, site-config global, or OPENAI_API_KEY env
+  - Max 5 agentic steps (stopWhen: stepCountIs(5))
+  - Streams text/plain response (toTextStreamResponse)
+inputs:
+  - SPEC-011 (plugin skeleton)
+  - SPEC-015 (plugin CMS tools — tools are passed to streamText)
+  - __ignored/route.ts (source — adapt to Payload endpoint format)
+  - ai package (Vercel AI SDK)
+  - @ai-sdk/openai package
+outputs:
+  - packages/plugin/src/endpoints/chat.ts (Payload Endpoint object factory)
+  - Updated packages/plugin/src/index.ts (exports chatEndpoint)
+definition_of_done:
+  - POST /api/ai/chat without auth cookie → 401
+  - POST /api/ai/chat with valid auth + {"messages":[{"role":"user","content":"hello"}]} → streams text
+  - HEAD /api/ai/chat → 200 (or 403 if AI_ENABLED=false)
+  - Response streams incrementally (not buffered)
+  - Tools are attached to streamText call
+  - TypeScript strict compile passes
+  - No TODO or placeholder
+status: pending
+deps: [SPEC-011, SPEC-015]
+priority: critical

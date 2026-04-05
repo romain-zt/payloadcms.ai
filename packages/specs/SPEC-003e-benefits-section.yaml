@@ -1,0 +1,21 @@
+id: SPEC-003e
+goal: Build benefits grid showing what "your developer" can do
+constraints:
+  - Mobile-first
+  - 4 benefit cards
+  - Server component
+  - Copy from packages/marketing/copy.json → benefits
+inputs:
+  - SPEC-002 (Next.js + Tailwind ready)
+  - packages/marketing/copy.json
+outputs:
+  - apps/web/src/components/landing/benefits.tsx
+definition_of_done:
+  - 4 cards: create pages, update content, upload media, query anything
+  - Each card has title + one-line description
+  - Grid: 1 col mobile, 2 col tablet, 4 col desktop
+  - Responsive
+status: done
+deps: [SPEC-002]
+priority: high
+parent: SPEC-003

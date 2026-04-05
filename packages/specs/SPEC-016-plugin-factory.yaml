@@ -1,0 +1,31 @@
+id: SPEC-016
+title: plugin-factory
+goal: Implement createAIAssistantPlugin(options) — the PayloadCMS plugin factory that wires together the collection, endpoint, admin component, and tools into a single Plugin function
+constraints:
+  - Must follow PayloadCMS Plugin API: returns a function (incomingConfig: Config) => Config
+  - Options interface: { model?, openaiApiKey?, enabled?, collections?, globals?, systemPrompt? }
+  - Registers ai-conversations collection (SPEC-012) into config.collections
+  - Registers AIChatProvider (SPEC-013) into config.admin.components.providers
+  - Registers chat endpoint (SPEC-014) into config.endpoints
+  - Merges without overwriting existing user config
+  - enabled: defaults to true, respects AI_ENABLED env var
+  - TypeScript strict, no any
+inputs:
+  - SPEC-012 (ai-conversations collection)
+  - SPEC-013 (AIChatProvider component)
+  - SPEC-014 (chat endpoint)
+  - SPEC-015 (CMS tools)
+  - packages/plugin/src/types.ts (AIAssistantOptions)
+outputs:
+  - packages/plugin/src/plugin.ts (createAIAssistantPlugin function)
+  - Updated packages/plugin/src/index.ts (default export: createAIAssistantPlugin)
+definition_of_done:
+  - createAIAssistantPlugin() exported from @payloadcms/ai-assistant
+  - Adding createAIAssistantPlugin()(config) to payload.config.ts registers the collection, component, and endpoint
+  - plugin does not throw when enabled:false
+  - TypeScript strict compile passes
+  - Usage example: plugins: [createAIAssistantPlugin({ model: 'gpt-4o' })] works
+  - No TODO or placeholder
+status: pending
+deps: [SPEC-012, SPEC-013, SPEC-014, SPEC-015]
+priority: critical

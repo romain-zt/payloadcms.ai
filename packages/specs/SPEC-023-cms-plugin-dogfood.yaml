@@ -1,0 +1,30 @@
+id: SPEC-023
+title: cms-plugin-dogfood
+goal: Install and configure the @payloadcms/ai-assistant plugin on apps/cms itself — using our own plugin on our own site
+constraints:
+  - Plugin added via workspace protocol: @payloadcms/ai-assistant: workspace:*
+  - payload.config.ts updated with createAIAssistantPlugin({ model: 'gpt-4o' })
+  - OPENAI_API_KEY from env
+  - ai-conversations collection automatically added by plugin
+  - Plugin's system prompt customized for payloadcms.ai site (knows about Waitlist, Pages collections)
+  - The dogfood test IS the integration test for SPEC-016
+inputs:
+  - SPEC-017 (plugin built and verified)
+  - SPEC-018 (cms app skeleton)
+  - SPEC-020 (cms collections — Waitlist, Pages, Media)
+outputs:
+  - Updated apps/cms/package.json (adds @payloadcms/ai-assistant workspace dep)
+  - Updated apps/cms/src/payload.config.ts (adds createAIAssistantPlugin())
+  - Updated apps/cms/.env.example (adds OPENAI_API_KEY, AI_ENABLED)
+definition_of_done:
+  - pnpm install in apps/cms resolves @payloadcms/ai-assistant
+  - /admin shows the AI chat FAB button in bottom-right corner
+  - Clicking FAB opens chat panel
+  - Sending "list all waitlist entries" in admin chat → AI lists waitlist docs
+  - Sending "create a test page titled Hello World" → creates draft page in Pages collection
+  - HEAD /api/ai/chat → 200 when AI_ENABLED=true
+  - HEAD /api/ai/chat → 403 when AI_ENABLED=false
+  - No TypeScript errors in apps/cms
+status: pending
+deps: [SPEC-017, SPEC-020]
+priority: high

@@ -1,0 +1,24 @@
+id: SPEC-003f
+goal: Assemble all landing sections into the root page
+constraints:
+  - Server component
+  - Semantic HTML structure
+  - SEO metadata from packages/marketing/copy.json → meta
+inputs:
+  - SPEC-003a (hero)
+  - SPEC-003b (pricing)
+  - SPEC-003c (demo)
+  - SPEC-003d (cta)
+  - SPEC-003e (benefits)
+  - packages/marketing/copy.json
+outputs:
+  - apps/web/src/app/page.tsx
+definition_of_done:
+  - Page renders hero → benefits → demo → pricing → cta in order
+  - Metadata: title + description + OG from copy.json
+  - Semantic HTML (main, sections)
+  - Page loads without errors
+status: done
+deps: [SPEC-003a, SPEC-003b, SPEC-003c, SPEC-003d, SPEC-003e]
+priority: critical
+parent: SPEC-003

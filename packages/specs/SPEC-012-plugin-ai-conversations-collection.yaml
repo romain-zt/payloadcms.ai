@@ -1,0 +1,25 @@
+id: SPEC-012
+title: plugin-ai-conversations-collection
+goal: Define the ai-conversations PayloadCMS collection that persists chat history per user session
+constraints:
+  - Collection slug must be ai-conversations
+  - Fields: title (text), messages (array of {id, role, content}), user (relationship to users collection, optional)
+  - Access: read/write only for authenticated users, scoped to their own docs
+  - No admin UI hooks — collection is data-only
+  - Must be exported as a CollectionConfig object from packages/plugin
+  - TypeScript strict, no any
+inputs:
+  - SPEC-011 (plugin package skeleton)
+  - __ignored/AIChat/index.tsx (existing conversation data shape: id, title, updatedAt, messages[])
+outputs:
+  - packages/plugin/src/collections/ai-conversations.ts
+  - Updated packages/plugin/src/index.ts (exports aiConversationsCollection)
+definition_of_done:
+  - packages/plugin/src/collections/ai-conversations.ts exports a valid PayloadCMS CollectionConfig
+  - Collection has fields: title (text, required), messages (array: id, role enum user|assistant, content text), updatedAt auto
+  - Access control: read/create/update/delete requires authenticated user
+  - TypeScript strict compile passes
+  - import { aiConversationsCollection } from '@payloadcms/ai-assistant' resolves after build
+status: pending
+deps: [SPEC-011]
+priority: critical

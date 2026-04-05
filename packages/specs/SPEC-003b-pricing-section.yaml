@@ -1,0 +1,22 @@
+id: SPEC-003b
+goal: Build pricing section with Starter and Pro tiers framed as developer cost
+constraints:
+  - Mobile-first
+  - Clear value comparison
+  - Framing: "cheaper than a freelancer, faster than your team"
+  - Copy from packages/marketing/copy.json → pricing
+inputs:
+  - SPEC-002 (Next.js + Tailwind ready)
+  - packages/marketing/copy.json
+outputs:
+  - apps/web/src/components/landing/pricing.tsx
+definition_of_done:
+  - Starter tier (€0) with "Try your new developer" tagline
+  - Pro tier (€29/mo) with "Your full-time CMS developer" tagline
+  - Visual highlight on Pro tier
+  - CTA button per tier
+  - Responsive grid (1 col mobile, 2 col desktop)
+status: done
+deps: [SPEC-002]
+priority: high
+parent: SPEC-003

@@ -1,0 +1,22 @@
+id: SPEC-007
+goal: Implement basic intent parsing and action resolution
+constraints:
+  - LLM generates intent, never executes
+  - Intent validated before action
+  - Use existing core types
+inputs:
+  - SPEC-004 (NestJS API)
+  - packages/core (existing types)
+  - packages/adapters (PayloadClient)
+outputs:
+  - Intent parser service
+  - Intent validator
+  - Action resolver
+definition_of_done:
+  - POST /api/intent with message → returns parsed intent
+  - Intent validated (known action, required fields)
+  - Valid intent → executed via PayloadClient
+  - Invalid intent → error response
+status: done
+deps: [SPEC-004]
+priority: high

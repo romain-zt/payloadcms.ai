@@ -1,0 +1,41 @@
+{
+  "name": "@payloadcms/ai-assistant",
+  "version": "0.1.0",
+  "description": "AI assistant plugin for PayloadCMS — talk to your CMS",
+  "keywords": ["payloadcms", "ai", "plugin", "cms", "assistant"],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": ["dist", "README.md"],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "tsc --noEmit",
+    "test": "echo 'no tests yet'"
+  },
+  "peerDependencies": {
+    "payload": ">=3.0.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@ai-sdk/openai": "^3.0.50",
+    "ai": "^6.0.146",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "payload": "^3.33.0",
+    "react": "^19.0.0",
+    "tsup": "^8.3.0",
+    "typescript": "^5.7.0"
+  }
+}

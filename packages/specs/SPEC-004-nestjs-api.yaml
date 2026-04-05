@@ -1,0 +1,20 @@
+id: SPEC-004
+goal: Setup NestJS API with hexagonal architecture skeleton
+constraints:
+  - Hexagonal architecture strict (domain/application/infrastructure)
+  - No NestJS in domain layer
+  - TypeScript strict
+inputs:
+  - SPEC-001 (monorepo setup)
+outputs:
+  - apps/api with NestJS project
+  - domain/ application/ infrastructure/ directories
+  - Health check endpoint
+definition_of_done:
+  - nest start runs without errors
+  - GET /health returns 200
+  - Directory structure follows hexagonal
+  - Domain has zero NestJS imports
+status: done
+deps: [SPEC-001]
+priority: critical

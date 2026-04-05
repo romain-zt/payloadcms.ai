@@ -1,0 +1,30 @@
+id: SPEC-011
+title: plugin-package-skeleton
+goal: Create the packages/plugin package — the PayloadCMS AI assistant plugin skeleton with correct package.json, tsup config, and TypeScript entry point
+constraints:
+  - Package name must be @payloadcms/ai-assistant
+  - Must live in packages/plugin
+  - TypeScript strict mode
+  - tsup for bundling (ESM + CJS dual output)
+  - peerDependencies on payload >= 3.0.0 and react >= 18
+  - No runtime dependencies bundled except ai SDK
+  - entry point: packages/plugin/src/index.ts
+inputs:
+  - SPEC-001 (monorepo setup — pnpm workspaces, tsconfig root)
+  - pnpm-workspace.yaml
+  - packages/core/package.json (reference for naming conventions)
+outputs:
+  - packages/plugin/package.json
+  - packages/plugin/tsconfig.json
+  - packages/plugin/tsup.config.ts
+  - packages/plugin/src/index.ts (re-exports from submodules — empty stubs for now)
+  - packages/plugin/src/types.ts (AIAssistantOptions interface skeleton)
+definition_of_done:
+  - packages/plugin/package.json has name "@payloadcms/ai-assistant"
+  - pnpm install resolves without errors from monorepo root
+  - pnpm build in packages/plugin runs tsup and exits 0
+  - dist/index.js and dist/index.d.ts exist after build
+  - TypeScript strict compile passes (tsc --noEmit) in packages/plugin
+status: ready
+deps: [SPEC-001]
+priority: critical

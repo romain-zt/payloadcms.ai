@@ -1,0 +1,28 @@
+---
+description: Frontend development rules for Next.js web app
+globs: ["apps/web/**"]
+---
+
+# Frontend Rules
+
+## Mobile-First
+- Start at 320px, scale up
+- Use responsive Tailwind: `text-base sm:text-lg md:text-xl`
+- Minimum touch targets: 44x44px
+- Test: 320px → 375px → 768px → 1024px → 1440px
+
+## Copywriting
+- Simple, authentic, human
+- No: "revolutionary", "game-changing", "cutting-edge"
+- Yes: direct, factual, transparent
+
+## Stack
+- Next.js App Router
+- Tailwind CSS
+- TypeScript strict
+
+## Performance
+- Lazy load below-fold content
+- Optimize images (next/image)
+- Minimal JS bundle
+- Server components by default

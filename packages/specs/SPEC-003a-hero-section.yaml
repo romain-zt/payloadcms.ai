@@ -1,0 +1,22 @@
+id: SPEC-003a
+goal: Build hero section with "your developer, 24/7" positioning
+constraints:
+  - Mobile-first
+  - Min touch target 44x44px
+  - Server component
+  - Copy from packages/marketing/copy.json → hero
+inputs:
+  - SPEC-002 (Next.js + Tailwind ready)
+  - packages/marketing/copy.json
+outputs:
+  - apps/web/src/components/landing/hero.tsx
+definition_of_done:
+  - Headline: "Your CMS developer. Available 24/7."
+  - Sub: "Need a page updated at midnight? A blog post before Monday? Consider it done."
+  - Two CTA buttons: "Get your developer" (primary) + "See how it works" (secondary/ghost)
+  - Responsive across all breakpoints
+  - No client-side JS needed
+status: done
+deps: [SPEC-002]
+priority: critical
+parent: SPEC-003

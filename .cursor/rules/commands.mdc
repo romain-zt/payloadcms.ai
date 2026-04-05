@@ -1,0 +1,35 @@
+---
+description: Cursor commands mapped to skills and agents
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Commands → Skills → Agents
+
+When the user types a command, invoke the matching skill.
+
+| Command | Skill | Agent | Model |
+|---------|-------|-------|-------|
+| `/spec [name]` | `spec-create` | Planner | **opus 4.6** (DAG reasoning) |
+| `/split <ID>` | `spec-split` | Splitter | composer-2 fast |
+| `/run [ID]` | `spec-run` | Executor | composer-2 fast |
+| `/review [ID]` | `spec-review` | Reviewer | composer-2 fast |
+| `/status` | `dag-status` | Orchestrator | composer-2 fast |
+| `/next` | `dag-next` | Orchestrator | composer-2 fast |
+
+## Routing Rules
+
+- `/spec` is the ONLY command that triggers opus — it designs the DAG
+- All other commands use composer-2 fast
+- `/next` chains skills automatically (status → run/split/review)
+- `/run` without ID = run ALL ready specs in parallel
+
+## Implicit Triggers
+
+Skills also activate on natural language:
+- "create a spec" / "plan" / "new task" → `spec-create`
+- "break this down" / "too big" → `spec-split`
+- "build" / "implement" / "execute" → `spec-run`
+- "check" / "validate" → `spec-review`
+- "progress" / "where are we" → `dag-status`
+- "continue" / "keep going" / "what's next" → `dag-next`

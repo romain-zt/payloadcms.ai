@@ -1,0 +1,20 @@
+id: SPEC-001
+goal: Initialize monorepo with all workspace packages buildable
+constraints:
+  - pnpm workspaces + Turborepo
+  - TypeScript strict
+  - All packages must compile
+inputs: []
+outputs:
+  - apps/web package.json + tsconfig
+  - apps/api package.json + tsconfig
+  - packages/utils package.json + tsconfig
+  - packages/specs package.json
+  - packages/marketing package.json
+definition_of_done:
+  - pnpm install succeeds
+  - turbo run build succeeds for all packages
+  - All tsconfigs extend root
+status: done
+deps: []
+priority: critical

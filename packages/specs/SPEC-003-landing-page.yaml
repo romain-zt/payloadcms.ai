@@ -1,0 +1,36 @@
+id: SPEC-003
+goal: Create landing page positioning the product as "your always-on CMS developer"
+constraints:
+  - Mobile-first responsive
+  - Human copywriting — no AI jargon, no "revolutionary"
+  - Positioning: developer teammate, not chatbot
+  - Accessible (ARIA, semantic HTML)
+  - Fast (server components, lazy load)
+  - All copy sourced from packages/marketing/copy.json
+inputs:
+  - SPEC-002 (Next.js app)
+  - packages/marketing/copy.json
+outputs:
+  - Landing page at /
+  - Hero section
+  - Benefits section
+  - Demo section (placeholder)
+  - Pricing section
+  - Bottom CTA section
+definition_of_done:
+  - Page renders at /
+  - All sections visible
+  - Responsive 320px to 1440px
+  - Lighthouse accessibility > 90
+  - Copy matches marketing/copy.json exactly
+  - Zero mention of "AI" in user-facing copy
+status: done
+deps: [SPEC-002]
+priority: critical
+children:
+  - SPEC-003a
+  - SPEC-003b
+  - SPEC-003c
+  - SPEC-003d
+  - SPEC-003e
+  - SPEC-003f

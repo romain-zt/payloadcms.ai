@@ -1,0 +1,37 @@
+---
+description: Spec file format and management rules
+globs: ["packages/specs/**"]
+---
+
+# Spec Rules
+
+## Format
+Every spec file MUST contain:
+```yaml
+id: <unique-id>
+goal: <what this spec achieves>
+constraints:
+  - <constraint 1>
+inputs:
+  - <input 1>
+outputs:
+  - <output 1>
+definition_of_done:
+  - <testable criterion 1>
+status: pending | ready | in_progress | done | failed
+deps: [<spec-id>, ...]
+priority: critical | high | medium | low
+```
+
+## Rules
+- Specs are the ONLY source of truth for planning
+- If a spec has >1 concern → split it
+- If a spec is vague → split it
+- If a spec touches >1 package → split it
+- Specs reference other specs by id
+- Status updates happen in spec files
+
+## Naming
+- `SPEC-XXX-short-description.yaml`
+- Sequential numbering
+- Grouped by domain in subdirectories when >20 specs

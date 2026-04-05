@@ -1,0 +1,27 @@
+id: SPEC-017
+title: plugin-build-verify
+goal: Verify the plugin builds cleanly, exports are correct, and the package is installable locally in apps/cms
+constraints:
+  - tsup must produce dist/index.js (CJS) and dist/index.mjs (ESM)
+  - dist/index.d.ts must exist (TypeScript declarations)
+  - No internal src/ paths leaked into dist
+  - package.json exports map must point to correct dist files
+  - Must be installable via pnpm add @payloadcms/ai-assistant from apps/cms (workspace protocol)
+  - README.md must exist with install + usage instructions (5 lines minimum)
+inputs:
+  - SPEC-016 (plugin factory — all sources complete)
+  - packages/plugin/tsup.config.ts
+outputs:
+  - packages/plugin/dist/ (built artifacts — verified)
+  - packages/plugin/README.md (install + usage docs)
+  - Updated packages/plugin/package.json (exports map: main, module, types)
+definition_of_done:
+  - pnpm build in packages/plugin exits 0
+  - dist/index.js, dist/index.mjs, dist/index.d.ts all exist
+  - node -e "const { createAIAssistantPlugin } = require('./dist/index.js'); console.log(typeof createAIAssistantPlugin)" prints "function"
+  - No dist file contains absolute src/ path references
+  - README.md has npm install command and minimal usage example
+  - TypeScript import resolves: import { createAIAssistantPlugin, AIChatProvider } from '@payloadcms/ai-assistant'
+status: pending
+deps: [SPEC-016]
+priority: critical

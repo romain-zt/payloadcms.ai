@@ -1,0 +1,75 @@
+{
+  "hero": {
+    "headline": "Your CMS developer. Available 24/7.",
+    "subheadline": "Need a page updated at midnight? A blog post before Monday? Consider it done.",
+    "cta_primary": "Get your developer",
+    "cta_secondary": "See how it works"
+  },
+  "benefits": {
+    "title": "Everything a developer does. Without the wait.",
+    "items": [
+      {
+        "title": "Create pages & posts",
+        "description": "Describe what you need. Your developer builds it in seconds."
+      },
+      {
+        "title": "Update existing content",
+        "description": "Point at what's wrong. It's fixed before you finish your coffee."
+      },
+      {
+        "title": "Upload & organize media",
+        "description": "Drop your files. They're optimized, named, and in the right place."
+      },
+      {
+        "title": "Query & find anything",
+        "description": "Ask for what you need. No filters, no search syntax."
+      }
+    ]
+  },
+  "demo": {
+    "title": "Watch your developer work",
+    "subtitle": "Tell it what you need. It handles the CMS."
+  },
+  "pricing": {
+    "title": "Simple, honest pricing",
+    "subtitle": "Cheaper than a freelancer. Faster than your team.",
+    "tiers": [
+      {
+        "name": "Starter",
+        "price": "€0",
+        "period": "forever",
+        "description": "Try your new developer",
+        "features": [
+          "50 content updates/month",
+          "1 project",
+          "Community support"
+        ],
+        "cta": "Start free"
+      },
+      {
+        "name": "Pro",
+        "price": "€29",
+        "period": "/month",
+        "description": "Your full-time CMS developer",
+        "features": [
+          "Unlimited updates",
+          "Unlimited projects",
+          "Priority support",
+          "Advanced queries",
+          "Team access"
+        ],
+        "cta": "Get Pro",
+        "highlighted": true
+      }
+    ]
+  },
+  "cta_bottom": {
+    "headline": "Stop waiting for content updates.",
+    "subheadline": "Your developer is ready. Set up in 2 minutes. No migration needed.",
+    "cta": "Get your developer"
+  },
+  "meta": {
+    "title": "payloadcms.ai — Your CMS developer, available 24/7",
+    "description": "A developer for your PayloadCMS that never sleeps. Create pages, update content, upload media. No tickets. No waiting."
+  }
+}

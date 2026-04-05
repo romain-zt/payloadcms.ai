@@ -1,0 +1,21 @@
+id: SPEC-003d
+goal: Build bottom CTA section with urgency-free closing
+constraints:
+  - Mobile-first
+  - Strong visual contrast
+  - Copy from packages/marketing/copy.json → cta_bottom
+inputs:
+  - SPEC-002 (Next.js + Tailwind ready)
+  - packages/marketing/copy.json
+outputs:
+  - apps/web/src/components/landing/cta.tsx
+definition_of_done:
+  - Headline: "Stop waiting for content updates."
+  - Sub: "Your developer is ready. Set up in 2 minutes. No migration needed."
+  - CTA button: "Get your developer" (44x44px min touch)
+  - Visually distinct background
+  - Responsive
+status: done
+deps: [SPEC-002]
+priority: high
+parent: SPEC-003

@@ -1,0 +1,29 @@
+{
+  "name": "@payloadcms-ai/api",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "nest build",
+    "dev": "nest start --watch",
+    "start": "node dist/main",
+    "lint": "tsc --noEmit",
+    "test": "echo 'no tests yet'"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.4.0",
+    "@nestjs/core": "^10.4.0",
+    "@nestjs/platform-express": "^10.4.0",
+    "@payloadcms-ai/core": "workspace:*",
+    "@payloadcms-ai/billing": "workspace:*",
+    "@payloadcms-ai/agents": "workspace:*",
+    "@payloadcms-ai/events": "workspace:*",
+    "@payloadcms-ai/adapters": "workspace:*",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.8.0"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^10.4.0",
+    "@types/express": "^5.0.0",
+    "typescript": "^5.7.0"
+  }
+}

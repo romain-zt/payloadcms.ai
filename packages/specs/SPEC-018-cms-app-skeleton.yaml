@@ -1,0 +1,35 @@
+id: SPEC-018
+title: cms-app-skeleton
+goal: Create apps/cms — a PayloadCMS 3.x + Next.js 15 app that will serve as the payloadcms.ai website (marketing + admin + demo)
+constraints:
+  - Uses PayloadCMS 3.x (latest) with Next.js app router
+  - Database: PostgreSQL via @payloadcms/db-postgres
+  - Must live in apps/cms
+  - TypeScript strict
+  - Tailwind CSS for frontend pages
+  - payload.config.ts at apps/cms/src/payload.config.ts
+  - Admin panel at /admin (Payload default)
+  - Sharp for image optimization
+  - Separate from apps/web (existing Next.js app — do not touch)
+inputs:
+  - SPEC-001 (monorepo — pnpm workspaces)
+  - pnpm-workspace.yaml
+  - apps/web/package.json (reference for package versions)
+outputs:
+  - apps/cms/package.json
+  - apps/cms/tsconfig.json
+  - apps/cms/next.config.ts
+  - apps/cms/src/payload.config.ts (minimal — Media collection + Users)
+  - apps/cms/src/app/layout.tsx
+  - apps/cms/src/app/page.tsx (placeholder — "payloadcms.ai coming soon")
+  - apps/cms/.env.example (DATABASE_URI, PAYLOAD_SECRET, NEXT_PUBLIC_SERVER_URL)
+  - Updated pnpm-workspace.yaml if needed
+definition_of_done:
+  - pnpm install from monorepo root resolves apps/cms without errors
+  - pnpm dev in apps/cms starts Next.js dev server on port 3001
+  - /admin loads PayloadCMS admin panel in browser
+  - payload.config.ts has valid TypeScript with no errors
+  - .env.example documents all required env vars
+status: ready
+deps: [SPEC-001]
+priority: high

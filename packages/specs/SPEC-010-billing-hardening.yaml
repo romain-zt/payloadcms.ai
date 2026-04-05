@@ -1,0 +1,35 @@
+id: SPEC-010
+title: billing-hardening
+goal: Harden Stripe billing so subscription status is synced and API access is blocked when subscription is inactive or unpaid
+constraints:
+  - Stripe webhook signature verified on every event
+  - Subscription status persisted (in-memory store acceptable for MVP, env-keyed)
+  - Access blocked immediately on subscription cancellation or payment failure
+  - Duplicate webhook events handled idempotently (event ID dedup)
+  - No direct DB access from webhook handler — go through service layer
+  - STRIPE_WEBHOOK_SECRET must be set or server fails to start
+inputs:
+  - SPEC-005 (Stripe checkout)
+  - SPEC-009 (API key guard — to hook into)
+  - packages/billing/src/stripe.service.ts
+  - packages/billing/src/webhook.handler.ts
+  - apps/api/src/infrastructure/controllers/billing.controller.ts
+outputs:
+  - Updated packages/billing/src/webhook.handler.ts (signature verify + event dedup)
+  - packages/billing/src/subscription.store.ts (in-memory status map: customerId → active|inactive|past_due)
+  - Updated packages/billing/src/stripe.service.ts (syncSubscription, isActive methods)
+  - Updated apps/api/src/infrastructure/guards/api-key.guard.ts (checks subscription active)
+  - Handled Stripe events: customer.subscription.updated, customer.subscription.deleted, invoice.payment_failed, invoice.payment_succeeded
+definition_of_done:
+  - Stripe webhook POST /api/billing/webhook with invalid signature → 400
+  - Stripe webhook with valid signature + customer.subscription.deleted → subscription marked inactive
+  - API call from user with inactive subscription → 403 with "subscription inactive" message
+  - Duplicate webhook event (same Stripe event ID) processed only once
+  - invoice.payment_failed → subscription marked past_due, API returns 403
+  - invoice.payment_succeeded → subscription restored to active
+  - STRIPE_WEBHOOK_SECRET missing → server fails to start with clear error
+  - No TODO or placeholder in src/
+  - TypeScript strict compile passes
+status: ready
+deps: [SPEC-005, SPEC-009]
+priority: critical

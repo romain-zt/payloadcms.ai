@@ -1,0 +1,30 @@
+id: SPEC-015
+title: plugin-cms-tools
+goal: Extract the PayloadCMS AI tools (listContent, readDocument, createDocument, updateDocument, readGlobal, updateGlobal, getStats, searchContent) into a standalone tools module within the plugin
+constraints:
+  - Source: __ignored/route.ts buildTools() function — extract verbatim, then type properly
+  - Tools must be built with Vercel AI SDK ToolSet (import { type ToolSet } from 'ai')
+  - Schema validation via zod
+  - Tool factory takes a Payload instance as parameter: buildCMSTools(payload)
+  - Collections and globals are configurable (passed via plugin options) — default to all writable collections
+  - No hardcoded collection slugs — accept as parameter with sensible defaults
+  - TypeScript strict, no any
+inputs:
+  - SPEC-011 (plugin skeleton)
+  - __ignored/route.ts (buildTools function — source of truth)
+  - zod (already in deps)
+  - ai package (ToolSet type)
+outputs:
+  - packages/plugin/src/tools/cms-tools.ts (buildCMSTools factory)
+  - packages/plugin/src/tools/types.ts (CMSToolsOptions interface)
+  - packages/plugin/src/tools/index.ts
+  - Updated packages/plugin/src/index.ts (exports buildCMSTools)
+definition_of_done:
+  - buildCMSTools(payload) returns a valid ToolSet
+  - ToolSet contains: listContent, readDocument, createDocument, updateDocument, readGlobal, updateGlobal, getStats, searchContent
+  - Each tool has description, inputSchema (zod), and execute function
+  - TypeScript strict compile passes with no any casts
+  - import { buildCMSTools } from '@payloadcms/ai-assistant' resolves after build
+status: pending
+deps: [SPEC-011]
+priority: critical

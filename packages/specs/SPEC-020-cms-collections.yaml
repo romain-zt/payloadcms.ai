@@ -1,0 +1,27 @@
+id: SPEC-020
+title: cms-collections
+goal: Define the PayloadCMS collections needed for the payloadcms.ai site — Waitlist entries, Pages, and Media
+constraints:
+  - All collections in apps/cms/src/collections/
+  - TypeScript strict, exported as CollectionConfig
+  - Waitlist: public create access (no auth), admin read/delete only
+  - Pages: slug-based, rich text blocks, draft support, admin only write
+  - Media: image uploads with auto-resize (thumbnail 400w, og 1200x630)
+  - No duplicate field names or slug conflicts with Payload defaults
+inputs:
+  - SPEC-018 (cms app skeleton — payload.config.ts exists)
+outputs:
+  - apps/cms/src/collections/Waitlist.ts (fields: email required unique, name optional, source text, createdAt auto)
+  - apps/cms/src/collections/Pages.ts (fields: title, slug, hero, content richText, _status draft/published)
+  - apps/cms/src/collections/Media.ts (image uploads, sizes: thumbnail + og)
+  - Updated apps/cms/src/payload.config.ts (collections array includes Waitlist, Pages, Media, Users)
+definition_of_done:
+  - All 3 collection files exist and export valid CollectionConfig objects
+  - payload.config.ts imports and registers all collections
+  - pnpm dev in apps/cms starts without TypeScript errors
+  - POST /api/waitlist with {"email":"test@test.com"} → 201 (public endpoint)
+  - Waitlist collection visible in /admin
+  - Pages collection visible in /admin with draft/publish toggle
+status: pending
+deps: [SPEC-018]
+priority: high

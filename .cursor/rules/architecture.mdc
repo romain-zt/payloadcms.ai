@@ -1,0 +1,43 @@
+---
+description: Architecture rules for backend and domain code
+globs: ["apps/api/**", "packages/core/**"]
+---
+
+# Architecture Rules
+
+## NestJS Backend — Hexagonal Architecture STRICT
+```
+domain/        → pure types, entities, ports (interfaces)
+application/   → use cases, orchestration
+infrastructure/ → NestJS modules, DB, HTTP, external services
+```
+
+### Domain Rules
+- NO NestJS imports in domain
+- NO database/IO in domain
+- NO framework decorators in domain
+- All side effects go through ports (interfaces)
+- Domain is pure TypeScript
+
+### Application Rules
+- Use cases orchestrate domain logic
+- Depend on domain ports, never on infrastructure
+- One use case per file
+
+### Infrastructure Rules
+- Implements domain ports
+- Contains NestJS modules, controllers, repositories
+- All framework-specific code lives here
+
+## AI System
+1. Intent Generator (LLM) → parse user message to Intent
+2. Intent Validator → check Intent is safe and valid
+3. Action Resolver → map Intent to CMS action
+4. LLM NEVER executes directly — always goes through validation
+
+## Safety
+- No direct DB access from LLM output
+- No raw file writes from AI
+- Validate all actions before execution
+- Sanitize all outputs
+- Limit file access scope

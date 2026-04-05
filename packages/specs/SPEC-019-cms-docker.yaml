@@ -1,0 +1,30 @@
+id: SPEC-019
+title: cms-docker
+goal: Add Docker and docker-compose configuration for apps/cms so the entire stack (Next.js/Payload + PostgreSQL) can run locally and in production with a single command
+constraints:
+  - Dockerfile: multi-stage (builder + runner), Node 20 alpine
+  - docker-compose.yml: services: cms (app) + postgres (db) + optional pgadmin
+  - PostgreSQL 16 image
+  - App runs on port 3001 inside container, mapped to 3001 on host
+  - Environment variables via .env file (not hardcoded)
+  - Volume for postgres data persistence
+  - Health check on postgres before app starts
+  - Production image: standalone Next.js output (output: 'standalone' in next.config.ts)
+inputs:
+  - SPEC-018 (cms app skeleton — app exists and builds)
+  - apps/cms/next.config.ts
+  - apps/cms/package.json
+outputs:
+  - apps/cms/Dockerfile
+  - apps/cms/docker-compose.yml
+  - apps/cms/.dockerignore
+  - apps/cms/.env.example updated with DATABASE_URI for Docker postgres
+definition_of_done:
+  - docker-compose up --build in apps/cms starts cms + postgres without errors
+  - http://localhost:3001/admin loads in browser after docker-compose up
+  - docker build in apps/cms produces an image under 500MB
+  - postgres data persists across docker-compose down + up (volume)
+  - .env.example has DATABASE_URI=postgresql://payload:payload@postgres:5432/payloadcms
+status: pending
+deps: [SPEC-018]
+priority: high

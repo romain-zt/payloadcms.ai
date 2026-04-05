@@ -1,0 +1,21 @@
+id: SPEC-002
+goal: Setup Next.js app with App Router and Tailwind CSS
+constraints:
+  - Next.js 15+ with App Router
+  - Tailwind CSS v4
+  - TypeScript strict
+  - Mobile-first
+inputs:
+  - SPEC-001 (monorepo setup)
+outputs:
+  - apps/web with working Next.js setup
+  - Tailwind configured
+  - Root layout with metadata
+definition_of_done:
+  - next dev starts without errors
+  - Root page renders
+  - Tailwind classes work
+  - TypeScript compiles
+status: done
+deps: [SPEC-001]
+priority: critical

@@ -1,0 +1,34 @@
+id: SPEC-008
+title: sdk-ai-assistant
+goal: Build and publish the @payloadcms/ai-assistant npm package — a TypeScript SDK that wraps the API and exposes a clean chat interface
+constraints:
+  - Must build with tsup
+  - Export must work via: import { AIChatProvider } from '@payloadcms/ai-assistant'
+  - No internal path leaks in output
+  - TypeScript strict mode
+  - Package lives in packages/sdk (new package)
+  - Must not bundle Node-only APIs (browser-compatible)
+inputs:
+  - SPEC-007 (intent flow — API shape)
+  - apps/api/src/infrastructure/controllers/intent.controller.ts
+  - packages/core/src/types/intent.ts
+outputs:
+  - packages/sdk/package.json
+  - packages/sdk/src/index.ts (exports AIChatProvider, useChat, sendMessage)
+  - packages/sdk/src/client.ts (HTTP client wrapping /api/intent)
+  - packages/sdk/src/types.ts (ChatMessage, ChatOptions, ChatResponse)
+  - packages/sdk/tsconfig.json
+  - packages/sdk/tsup.config.ts
+  - packages/sdk/dist/ (built output)
+definition_of_done:
+  - packages/sdk exists with valid package.json (name "@payloadcms/ai-assistant")
+  - tsup builds successfully (pnpm build in packages/sdk)
+  - dist/index.js and dist/index.d.ts exist after build
+  - AIChatProvider is exported from dist/index.js
+  - import { AIChatProvider } from '@payloadcms/ai-assistant' resolves in apps/web
+  - sendMessage(message, apiKey) returns a typed ChatResponse or streams chunks
+  - No TODO or placeholder in src/
+  - TypeScript strict compile passes (tsc --noEmit)
+status: ready
+deps: [SPEC-007]
+priority: critical

@@ -1,0 +1,32 @@
+id: SPEC-021
+title: cms-landing
+goal: Build the marketing landing page for payloadcms.ai — a minimal, honest page that explains what the plugin does and drives waitlist signups
+constraints:
+  - Next.js page at apps/cms/src/app/page.tsx
+  - Mobile-first, Tailwind CSS
+  - No JavaScript frameworks besides React (no framer-motion, no animation libs)
+  - Copy must be simple and factual (no jargon, no "revolutionary")
+  - Sections: Hero, How it works (3 steps), What you get, Waitlist CTA
+  - Hero headline: "AI assistant for your PayloadCMS admin"
+  - How it works: 1) Install the plugin 2) Add your OpenAI key 3) Talk to your CMS
+  - No pricing section (to be added later)
+  - Links to /demo and /admin
+inputs:
+  - SPEC-018 (cms app + Tailwind)
+  - SPEC-020 (Waitlist collection — for the signup form)
+outputs:
+  - apps/cms/src/app/page.tsx (landing page)
+  - apps/cms/src/components/landing/hero.tsx
+  - apps/cms/src/components/landing/how-it-works.tsx
+  - apps/cms/src/components/landing/waitlist-form.tsx (calls POST /api/waitlist)
+  - apps/cms/src/components/landing/cta.tsx
+definition_of_done:
+  - / loads in browser with all 4 sections visible
+  - Page renders correctly at 375px (mobile) and 1280px (desktop)
+  - Waitlist form submits email → success message shown (no page reload)
+  - POST /api/waitlist called on form submit, 201 → success state
+  - No console errors
+  - All text fits within viewport without horizontal scroll at 320px
+status: pending
+deps: [SPEC-018, SPEC-020]
+priority: high

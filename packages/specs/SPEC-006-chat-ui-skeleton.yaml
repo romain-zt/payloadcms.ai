@@ -1,0 +1,22 @@
+id: SPEC-006
+goal: Create basic chat UI for CMS interaction
+constraints:
+  - Mobile-first
+  - Client component (needs state)
+  - Accessible
+  - Skeleton only (no real AI yet)
+inputs:
+  - SPEC-002 (Next.js app)
+outputs:
+  - apps/web/src/app/chat/page.tsx
+  - apps/web/src/components/chat/chat-input.tsx
+  - apps/web/src/components/chat/message-list.tsx
+definition_of_done:
+  - Chat page at /chat
+  - Input field with send button
+  - Message list with user/assistant distinction
+  - Mock responses (no real LLM)
+  - Responsive layout
+status: done
+deps: [SPEC-002]
+priority: high

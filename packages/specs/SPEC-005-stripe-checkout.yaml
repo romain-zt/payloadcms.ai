@@ -1,0 +1,23 @@
+id: SPEC-005
+goal: Implement Stripe checkout flow (landing → checkout → access)
+constraints:
+  - Use existing billing package
+  - Webhook handling required
+  - Store customer_id + subscription_status
+  - Idempotent webhook processing
+inputs:
+  - SPEC-002 (Next.js app)
+  - SPEC-004 (NestJS API)
+  - packages/billing (existing Stripe service)
+outputs:
+  - Checkout page/flow in web app
+  - Billing endpoints in API
+  - Webhook handler endpoint
+definition_of_done:
+  - User can click CTA → redirected to Stripe Checkout
+  - Successful payment creates subscription record
+  - Webhook updates subscription status
+  - Failed payment handled gracefully
+status: done
+deps: [SPEC-002, SPEC-004]
+priority: high

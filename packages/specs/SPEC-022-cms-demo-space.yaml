@@ -1,0 +1,33 @@
+id: SPEC-022
+title: cms-demo-space
+goal: Build a /demo route on apps/cms that showcases the AI assistant plugin live — visitors can interact with a sandboxed chat demo without signing up
+constraints:
+  - Next.js page at apps/cms/src/app/demo/page.tsx
+  - Demo chat calls a dedicated /api/demo-chat endpoint (read-only, no writes)
+  - Demo endpoint: no auth required, rate-limited (max 10 requests per IP per hour via in-memory map)
+  - LLM: uses OPENAI_API_KEY env var, model gpt-4o-mini (cost-efficient for demo)
+  - Demo has a fixed system prompt explaining it's a demo of the PayloadCMS AI plugin
+  - Demo context: fictional "Acme CMS" with sample collections (products, blog posts, team)
+  - Demo tools: read-only mock tools (listContent returns static fixtures, no real DB)
+  - Max 5 messages per demo session (after 5: "Sign up to continue")
+  - Mobile-first UI matching plugin widget appearance
+inputs:
+  - SPEC-018 (cms app)
+  - SPEC-013 (AIChatWidget component — reuse visuals)
+  - SPEC-015 (CMS tools — use read-only mock version)
+outputs:
+  - apps/cms/src/app/demo/page.tsx
+  - apps/cms/src/app/api/demo-chat/route.ts (rate-limited demo endpoint)
+  - apps/cms/src/lib/demo-fixtures.ts (static mock CMS data)
+  - apps/cms/src/components/demo/demo-chat.tsx (chat UI adapted for public demo)
+definition_of_done:
+  - /demo loads in browser
+  - Sending a message to demo chat returns a streamed AI response
+  - Response correctly references mock Acme CMS content (e.g. lists 3 mock blog posts)
+  - After 5 messages: UI shows "Sign up to keep going" prompt with waitlist link
+  - POST /api/demo-chat without rate limit → 200 streaming
+  - POST /api/demo-chat after 10 reqs/hour same IP → 429 response
+  - No auth required to access /demo
+status: pending
+deps: [SPEC-018, SPEC-013]
+priority: high
