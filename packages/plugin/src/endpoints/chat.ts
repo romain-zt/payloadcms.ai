@@ -1,5 +1,5 @@
 import { streamText, stepCountIs } from 'ai'
-import { openai, createOpenAI } from '@ai-sdk/openai'
+import { createOpenAI } from '@ai-sdk/openai'
 import type { Endpoint, PayloadHandler } from 'payload'
 import { buildCMSTools } from '../tools/cms-tools'
 import type { AIAssistantOptions } from '../types'
@@ -23,6 +23,14 @@ function isEnabled(options: AIAssistantOptions): boolean {
   return true
 }
 
+/** Runtime env read — avoids Next/webpack inlining `process.env.OPENAI_API_KEY` at build time. */
+function getOpenAiApiKey(options: AIAssistantOptions): string | undefined {
+  const fromOptions = options.openaiApiKey?.trim()
+  if (fromOptions) return fromOptions
+  const fromEnv = process.env['OPENAI_API_KEY']?.trim()
+  return fromEnv || undefined
+}
+
 export function createChatHeadEndpoint(options: AIAssistantOptions = {}): Endpoint {
   const handler: PayloadHandler = async (_req) => {
     if (!isEnabled(options)) {
@@ -33,7 +41,7 @@ export function createChatHeadEndpoint(options: AIAssistantOptions = {}): Endpoi
 
   return {
     path: '/ai/chat',
-    method: 'get',
+    method: 'head',
     handler,
   }
 }
@@ -62,9 +70,19 @@ export function createChatPostEndpoint(options: AIAssistantOptions = {}): Endpoi
 
     const messages = body.messages as Array<{ role: string; content: string }>
 
-    const apiKey = options.openaiApiKey ?? process.env.OPENAI_API_KEY
-    const provider = apiKey ? createOpenAI({ apiKey }) : openai
-    const model = options.model ?? process.env.AI_MODEL ?? 'gpt-4o'
+    const apiKey = getOpenAiApiKey(options)
+    if (!apiKey) {
+      return new Response(
+        JSON.stringify({
+          error:
+            'OPENAI_API_KEY is missing. Set it in apps/cms/.env (or pass openaiApiKey in the plugin config).',
+        }),
+        { status: 503, headers: { 'Content-Type': 'application/json' } },
+      )
+    }
+
+    const provider = createOpenAI({ apiKey })
+    const model = options.model ?? process.env['AI_MODEL'] ?? 'gpt-4o'
     const systemPrompt = options.systemPrompt ?? DEFAULT_SYSTEM_PROMPT
 
     const tools = buildCMSTools(

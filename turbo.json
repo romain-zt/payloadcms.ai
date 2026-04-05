@@ -1,5 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "globalPassThroughEnv": [
+    "OPENAI_API_KEY",
+    "OPENAI_BASE_URL",
+    "AI_MODEL",
+    "AI_ENABLED",
+    "AI_PROVIDER",
+    "DATABASE_URI",
+    "PAYLOAD_SECRET",
+    "NEXT_PUBLIC_SERVER_URL"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

@@ -8,6 +8,7 @@
     "start": "next start --port 3001",
     "lint": "next lint",
     "generate:types": "payload generate:types",
+    "generate:importmap": "node --experimental-strip-types scripts/generate-importmap.mjs",
     "payload": "payload"
   },
   "dependencies": {

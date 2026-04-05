@@ -7272,7 +7272,7 @@ snapshots:
 
   payload@3.81.0(graphql@16.13.2)(typescript@5.9.3):
     dependencies:
-      '@next/env': 15.5.14
+      '@next/env': 15.4.11
       '@payloadcms/translations': 3.81.0
       '@types/busboy': 1.5.4
       ajv: 8.18.0
