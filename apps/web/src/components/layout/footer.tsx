@@ -5,7 +5,7 @@ export function Footer() {
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
           <div className="flex flex-col items-center gap-2 sm:items-start">
             <p className="text-sm font-semibold text-zinc-400">
-              payload<span className="text-indigo-400">.ai</span>
+              payloadcms<span className="text-indigo-400">.ai</span>
             </p>
             <p className="text-xs text-zinc-700 max-w-xs text-center sm:text-left">
               Not affiliated with Payload CMS. Built independently by developers who use Payload every day.

@@ -22,7 +22,7 @@ export function MessageList({ messages, isLoading }: { messages: Message[]; isLo
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <div className="text-4xl sm:text-5xl font-bold tracking-tight">
-              payload<span className="text-indigo-400">.ai</span>
+              payloadcms<span className="text-indigo-400">.ai</span>
             </div>
             <p className="mt-3 text-sm text-zinc-500 sm:text-base">
               Tell your developer what you need. It handles the CMS.

@@ -6,7 +6,7 @@ export function Header() {
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2">
           <span className="text-base font-semibold tracking-tight text-zinc-100">
-            payload<span className="text-indigo-400">.ai</span>
+            payloadcms<span className="text-indigo-400">.ai</span>
           </span>
         </Link>
 
