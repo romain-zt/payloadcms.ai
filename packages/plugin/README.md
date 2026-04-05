@@ -43,6 +43,19 @@ AI_ENABLED=true   # set to 'false' to disable the plugin
 - Registers a `/api/ai/chat` endpoint for streaming responses
 - Injects the `AIChatProvider` into the admin panel (floating chat FAB)
 
+### Admin import map (Next.js App Router)
+
+Register the client bundle in your Payload import map — **do not** import UI from the main package in `payload.config.ts` (that entry is server-only):
+
+```ts
+// app/(payload)/admin/importMap.ts
+import { AIChatProvider } from '@payloadcms/ai-assistant/client'
+
+export const importMap = {
+  '@payloadcms/ai-assistant/client#AIChatProvider': AIChatProvider,
+}
+```
+
 ## Options
 
 | Option | Type | Default | Description |

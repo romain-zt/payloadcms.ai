@@ -1,6 +1,6 @@
 import type { ImportMap } from 'payload'
-import { AIChatProvider } from '@payloadcms/ai-assistant'
+import { AIChatProvider } from '@payloadcms/ai-assistant/client'
 
 export const importMap: ImportMap = {
-  '@payloadcms/ai-assistant#AIChatProvider': AIChatProvider,
+  '@payloadcms/ai-assistant/client#AIChatProvider': AIChatProvider,
 }

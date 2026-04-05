@@ -1,15 +1,26 @@
 import { defineConfig } from 'tsup'
 
-export default defineConfig({
-  entry: ['src/index.ts'],
-  format: ['cjs', 'esm'],
+const shared = {
+  format: ['cjs', 'esm'] as const,
   dts: true,
   splitting: false,
   sourcemap: false,
-  clean: true,
   treeshake: true,
   external: ['payload', 'react', 'react-dom'],
-  esbuildOptions(options) {
+  esbuildOptions(options: import('esbuild').BuildOptions) {
     options.conditions = ['module']
   },
-})
+}
+
+export default [
+  defineConfig({
+    ...shared,
+    entry: ['src/index.ts'],
+    clean: true,
+  }),
+  defineConfig({
+    ...shared,
+    entry: ['src/client.ts'],
+    clean: false,
+  }),
+]

@@ -31,7 +31,7 @@ export function createAIAssistantPlugin(options: AIAssistantOptions = {}) {
           ...incomingConfig.admin?.components,
           providers: [
             ...(incomingConfig.admin?.components?.providers ?? []),
-            '@payloadcms/ai-assistant#AIChatProvider',
+            '@payloadcms/ai-assistant/client#AIChatProvider',
           ],
         },
       },
