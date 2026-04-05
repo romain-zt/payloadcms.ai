@@ -1,1 +1,6 @@
 export type { AIAssistantOptions } from './types'
+export { createAIAssistantPlugin } from './plugin'
+export { aiConversationsCollection } from './collections/ai-conversations'
+export { AIChatProvider, AIChatWidget } from './components'
+export { buildCMSTools } from './tools'
+export type { CMSToolsOptions } from './tools'
