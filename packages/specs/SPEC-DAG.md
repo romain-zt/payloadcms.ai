@@ -88,6 +88,13 @@ graph TD
   S017 --> S023
   S020 --> S023
 
+  %% ── Phase 5: Context-Aware AI (READY/PENDING) ────────────────
+  S024[SPEC-024: Admin Page Context Hook]:::done
+  S025[SPEC-025: Context-Aware System Prompt]:::done
+
+  S016 --> S024
+  S024 --> S025
+
   classDef ready fill:#22c55e,color:#fff
   classDef pending fill:#94a3b8,color:#fff
   classDef done fill:#3b82f6,color:#fff
@@ -97,10 +104,10 @@ graph TD
 ## Progress
 
 ```
-PROGRESS:    ██████████ 22/23 — 1 READY (SPEC-008 cloud SDK)
+PROGRESS:    ██████████ 25/25 — all done
 
-  done:    22  (all except SPEC-008)
-  ready:    1  (SPEC-008 — optional cloud SDK wrapper)
+  done:    25
+  ready:    0
   pending:  0
   failed:   0
 ```
@@ -137,6 +144,14 @@ PROGRESS:    ██████████ 22/23 — 1 READY (SPEC-008 cloud SD
 - SPEC-023 (dogfood)
 
 ## Epics
+
+### Epic D: Context-Aware AI (Phase 5)
+> Make the AI assistant truly aware of what the user is looking at.
+
+| ID | Title | Status |
+|----|-------|--------|
+| SPEC-024 | Admin page context hook (frontend) | done |
+| SPEC-025 | Context-aware system prompt (backend) | done |
 
 ### Epic A: @payloadcms/ai-assistant Plugin
 > The actual product. Installable npm package.

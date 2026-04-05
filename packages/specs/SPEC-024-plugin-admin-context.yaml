@@ -1,0 +1,30 @@
+id: SPEC-024
+title: plugin-admin-context
+goal: Enrich every chat request with the current admin page context (collection slug, document ID, global slug, current document data, and relevant schema fields) so the AI knows exactly what the user is looking at
+constraints:
+  - Context is extracted client-side in AIChatWidget.tsx — no new files, extend existing component
+  - Use window.location.pathname to parse the admin URL (no next/navigation dependency)
+  - Use useConfig() from @payloadcms/ui to read collection/global configs and extract relevant field names
+  - Fetch current document data via GET /api/{collection}/{id} (REST) when on an edit page — do NOT use useAllFormFields (widget is outside document form context)
+  - Context is optional and best-effort: if extraction fails, fall back to sending messages with no context
+  - Context shape: { collection?: string, documentId?: string, global?: string, documentData?: Record<string, unknown>, fields?: string[] }
+  - Pass context alongside messages in POST body: { messages, context }
+  - TypeScript strict, no any
+inputs:
+  - SPEC-013 (AIChatWidget.tsx — source file to modify)
+  - SPEC-016 (plugin factory — context shape must match what SPEC-025 expects)
+  - PayloadCMS admin URL structure: /admin/collections/{slug}/{id}, /admin/globals/{slug}
+outputs:
+  - packages/plugin/src/components/AIChatWidget.tsx (modified: adds useAdminContext hook + context in POST body)
+  - packages/plugin/src/components/types.ts (new: exports PageContext interface)
+definition_of_done:
+  - useAdminContext() hook exported from AIChatWidget.tsx correctly parses /admin/collections/posts/abc123 → { collection: 'posts', documentId: 'abc123' }
+  - useAdminContext() correctly parses /admin/globals/site-settings → { global: 'site-settings' }
+  - useAdminContext() fetches document data when collection + documentId are present, stores in context.documentData
+  - useAdminContext() reads useConfig() and populates context.fields with flat list of field names for the active collection or global
+  - POST /api/ai/chat body includes { messages, context } (context may be undefined if not on a relevant page)
+  - TypeScript strict compile passes with no any casts
+  - No TODO or placeholder
+status: done
+deps: [SPEC-016]
+priority: high

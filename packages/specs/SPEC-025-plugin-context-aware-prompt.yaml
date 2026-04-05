@@ -1,0 +1,26 @@
+id: SPEC-025
+title: plugin-context-aware-prompt
+goal: Make the backend chat endpoint consume the page context sent by the frontend (SPEC-024) and inject it into the system prompt so the AI assistant acts on the right document, collection, and schema
+constraints:
+  - Modify chat.ts endpoint — no new files
+  - Accept context in POST body: { messages, context?: PageContext }
+  - PageContext: { collection?: string, documentId?: string, global?: string, documentData?: Record<string, unknown>, fields?: string[] }
+  - Inject context as a second system block (after the base system prompt) — never replace the base prompt
+  - Context block format: "## Current context\n- Page: {collection/global}\n- Document ID: {id}\n- Fields: {fields}\n- Current data:\n{JSON.stringify(documentData, null, 2)}"
+  - If no context is provided the endpoint behaves exactly as before (no regression)
+  - Cap documentData JSON to 4000 characters to avoid token overflow — truncate with a note if needed
+  - TypeScript strict, no any
+inputs:
+  - SPEC-024 (defines PageContext shape and what the frontend sends)
+  - packages/plugin/src/endpoints/chat.ts (source file to modify)
+outputs:
+  - packages/plugin/src/endpoints/chat.ts (modified: reads context from body, injects context system block)
+definition_of_done:
+  - POST /api/ai/chat with context.collection='posts' and context.documentId='abc' causes the system prompt to include a "## Current context" block with the correct values
+  - POST /api/ai/chat without context field works identically to before (backward compatible)
+  - documentData larger than 4000 chars is truncated with a trailing note "[truncated]"
+  - TypeScript strict compile passes with no any casts
+  - No TODO or placeholder
+status: done
+deps: [SPEC-024]
+priority: high

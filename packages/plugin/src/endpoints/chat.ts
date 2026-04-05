@@ -3,6 +3,7 @@ import { createOpenAI } from '@ai-sdk/openai'
 import type { Endpoint, PayloadHandler } from 'payload'
 import { buildCMSTools } from '../tools/cms-tools'
 import type { AIAssistantOptions } from '../types'
+import type { PageContext } from '../components/types'
 
 const DEFAULT_SYSTEM_PROMPT = `You are an AI assistant embedded in the PayloadCMS admin panel.
 
@@ -21,6 +22,30 @@ function isEnabled(options: AIAssistantOptions): boolean {
   if (options.enabled === false) return false
   if (process.env.AI_ENABLED === 'false') return false
   return true
+}
+
+const CONTEXT_DATA_LIMIT = 4000
+
+function buildContextBlock(ctx: PageContext): string {
+  const lines: string[] = ['## Current context']
+
+  if (ctx.collection) {
+    lines.push(`- Collection: ${ctx.collection}`)
+    if (ctx.documentId) lines.push(`- Document ID: ${ctx.documentId}`)
+  } else if (ctx.global) {
+    lines.push(`- Global: ${ctx.global}`)
+  }
+
+  if (ctx.documentData !== undefined) {
+    let json = JSON.stringify(ctx.documentData, null, 2)
+    if (json.length > CONTEXT_DATA_LIMIT) {
+      json = json.slice(0, CONTEXT_DATA_LIMIT) + '\n... [truncated]'
+    }
+    lines.push('- Current data:')
+    lines.push(json)
+  }
+
+  return lines.join('\n')
 }
 
 /** Runtime env read — avoids Next/webpack inlining `process.env.OPENAI_API_KEY` at build time. */
@@ -56,10 +81,10 @@ export function createChatPostEndpoint(options: AIAssistantOptions = {}): Endpoi
       return new Response('Unauthorized', { status: 401 })
     }
 
-    let body: { messages?: unknown }
+    let body: { messages?: unknown; context?: unknown }
     try {
       const webReq = req as unknown as Request
-      body = (await webReq.json()) as { messages?: unknown }
+      body = (await webReq.json()) as { messages?: unknown; context?: unknown }
     } catch {
       return new Response('Invalid JSON body', { status: 400 })
     }
@@ -69,6 +94,12 @@ export function createChatPostEndpoint(options: AIAssistantOptions = {}): Endpoi
     }
 
     const messages = body.messages as Array<{ role: string; content: string }>
+    const pageContext =
+      body.context !== null &&
+      typeof body.context === 'object' &&
+      !Array.isArray(body.context)
+        ? (body.context as PageContext)
+        : undefined
 
     const apiKey = getOpenAiApiKey(options)
     if (!apiKey) {
@@ -83,7 +114,10 @@ export function createChatPostEndpoint(options: AIAssistantOptions = {}): Endpoi
 
     const provider = createOpenAI({ apiKey })
     const model = options.model ?? process.env['AI_MODEL'] ?? 'gpt-4o'
-    const systemPrompt = options.systemPrompt ?? DEFAULT_SYSTEM_PROMPT
+    const basePrompt = options.systemPrompt ?? DEFAULT_SYSTEM_PROMPT
+    const systemPrompt = pageContext
+      ? `${basePrompt}\n\n${buildContextBlock(pageContext)}`
+      : basePrompt
 
     const tools = buildCMSTools(
       req.payload as Parameters<typeof buildCMSTools>[0],

@@ -8,6 +8,92 @@ import React, {
   type FormEvent,
   type KeyboardEvent,
 } from 'react'
+import type { PageContext } from './types'
+
+/**
+ * Parses the current PayloadCMS admin URL and fetches relevant context.
+ * Note: custom providers are rendered OUTSIDE PayloadCMS's ConfigProvider,
+ * so this hook deliberately avoids any @payloadcms/ui hooks (e.g. useConfig).
+ */
+function useAdminContext(): PageContext | undefined {
+  const [context, setContext] = useState<PageContext | undefined>(undefined)
+  // Track the pathname so we re-run when the user navigates
+  const [pathname, setPathname] = useState<string>(
+    typeof window !== 'undefined' ? window.location.pathname : '',
+  )
+
+  useEffect(() => {
+    const onNav = () => setPathname(window.location.pathname)
+    window.addEventListener('popstate', onNav)
+    // Also poll for client-side navigation (Next.js router doesn't always fire popstate)
+    const interval = setInterval(() => {
+      const current = window.location.pathname
+      setPathname((prev) => (prev !== current ? current : prev))
+    }, 500)
+    return () => {
+      window.removeEventListener('popstate', onNav)
+      clearInterval(interval)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!pathname) return
+    let cancelled = false
+
+    async function resolve() {
+      try {
+        // /admin/collections/{slug}/{id?}
+        const colMatch = /\/admin\/collections\/([^/]+)(?:\/([^/]+))?$/.exec(pathname)
+        if (colMatch) {
+          const slug = colMatch[1] as string
+          const idOrCreate = colMatch[2]
+          const ctx: PageContext = { collection: slug }
+
+          if (idOrCreate && idOrCreate !== 'create') {
+            ctx.documentId = idOrCreate
+            try {
+              const res = await fetch(`/api/${slug}/${idOrCreate}?depth=0`, {
+                credentials: 'include',
+              })
+              if (res.ok) {
+                ctx.documentData = (await res.json()) as Record<string, unknown>
+              }
+            } catch { /* best-effort */ }
+          }
+
+          if (!cancelled) setContext(ctx)
+          return
+        }
+
+        // /admin/globals/{slug}
+        const globalMatch = /\/admin\/globals\/([^/]+)$/.exec(pathname)
+        if (globalMatch) {
+          const slug = globalMatch[1] as string
+          const ctx: PageContext = { global: slug }
+
+          try {
+            const res = await fetch(`/api/globals/${slug}?depth=0`, {
+              credentials: 'include',
+            })
+            if (res.ok) {
+              ctx.documentData = (await res.json()) as Record<string, unknown>
+            }
+          } catch { /* best-effort */ }
+
+          if (!cancelled) setContext(ctx)
+          return
+        }
+
+        if (!cancelled) setContext(undefined)
+      } catch { /* best-effort — never break the widget */ }
+    }
+
+    void resolve()
+    return () => { cancelled = true }
+  }, [pathname])
+
+  return context
+}
 
 type Message = {
   id: string
@@ -31,7 +117,7 @@ const DEFAULT_SUGGESTIONS = [
 const OPEN_KEY = 'payload-ai-chat-open'
 const CONV_KEY = 'payload-ai-conv-id'
 
-function useAIChat(apiPath: string) {
+function useAIChat(apiPath: string, context: PageContext | undefined) {
   const [messages, setMessages] = useState<Message[]>([])
   const [conversationId, setConversationId] = useState<string | null>(() => {
     try { return sessionStorage.getItem(CONV_KEY) || null } catch { return null }
@@ -159,6 +245,7 @@ function useAIChat(apiPath: string) {
           signal: controller.signal,
           body: JSON.stringify({
             messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
+            ...(context !== undefined ? { context } : {}),
           }),
         })
 
@@ -199,7 +286,7 @@ function useAIChat(apiPath: string) {
         setIsLoading(false)
       }
     },
-    [messages, conversationId, saveConversation, apiPath],
+    [messages, conversationId, saveConversation, apiPath, context],
   )
 
   return {
@@ -308,7 +395,8 @@ export function AIChatWidget({ apiPath = '/api/ai/chat', suggestions = DEFAULT_S
     try { return sessionStorage.getItem(OPEN_KEY) === '1' } catch { return false }
   })
   const [view, setView] = useState<'chat' | 'list'>('chat')
-  const chat = useAIChat(apiPath)
+  const adminContext = useAdminContext()
+  const chat = useAIChat(apiPath, adminContext)
   const [input, setInput] = useState('')
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
