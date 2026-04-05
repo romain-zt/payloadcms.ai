@@ -45,16 +45,24 @@ AI_ENABLED=true   # set to 'false' to disable the plugin
 
 ### Admin import map (Next.js App Router)
 
-Register the client bundle in your Payload import map — **do not** import UI from the main package in `payload.config.ts` (that entry is server-only):
+Do **not** import `@payloadcms/ai-assistant/client` directly from `importMap.ts` — Next.js will treat the prebuilt bundle as a Server Component. Add a one-line client wrapper in your app:
+
+```tsx
+// components/payload-ai/AIChatProvider.tsx
+'use client'
+export { AIChatProvider } from '@payloadcms/ai-assistant/client'
+```
 
 ```ts
 // app/(payload)/admin/importMap.ts
-import { AIChatProvider } from '@payloadcms/ai-assistant/client'
+import { AIChatProvider } from '@/components/payload-ai/AIChatProvider'
 
 export const importMap = {
   '@payloadcms/ai-assistant/client#AIChatProvider': AIChatProvider,
 }
 ```
+
+The main package (`payload.config.ts`) stays server-only — no React hooks there.
 
 ## Options
 
